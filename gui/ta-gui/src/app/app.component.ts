@@ -9,21 +9,22 @@ import { NgModule } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-   aluno: Aluno = {nome: "", cpf: "", email: "", githubLogin: ""};
-   alunoService = new AlunoService();
-   alunos: Aluno[] = [];
-   cpfduplicado: boolean = false;
+  constructor(private alunoService: AlunoService) { }
 
-   gravar(a: Aluno): void {
-     if (this.alunoService.gravar(a)) {
-       this.alunos.push(a);
-       this.aluno = {nome: "", cpf: "", email: "", githubLogin: ""};
-     } else {
-       this.cpfduplicado = true;
-     }
+  aluno: Aluno = { nome: "", cpf: "", email: "", githubLogin: "" };
+  alunos: Aluno[] = [];
+  cpfduplicado: boolean = false;
+
+  gravar(a: Aluno): void {
+    if (this.alunoService.gravar(a)) {
+      this.alunos.push(a);
+      this.aluno = { nome: "", cpf: "", email: "", githubLogin: "" };
+    } else {
+      this.cpfduplicado = true;
+    }
   }
   onMove(): void {
-      this.cpfduplicado = false;
+    this.cpfduplicado = false;
   }
 }
 

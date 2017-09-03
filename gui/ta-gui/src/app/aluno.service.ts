@@ -1,5 +1,8 @@
+import { Injectable } from '@angular/core';
+
 import Aluno from './aluno';
 
+@Injectable()
 export default class AlunoService {
   alunos: Aluno[] = [];
   gravar(aluno: Aluno): Aluno {
