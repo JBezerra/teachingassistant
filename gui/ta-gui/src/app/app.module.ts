@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
 import { AppComponent } from './app.component';
-import AlunoService from './aluno.service';
+import { AlunoService } from './aluno.service';
 
 @NgModule({
   declarations: [
