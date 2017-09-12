@@ -15,11 +15,11 @@ export class Aluno {
       this.metas = new Map<string,string>();
     }
 
-    clone(): Aluno {
-      var aluno: Aluno = new Aluno();
-      aluno.copyFrom(this);
-      return aluno;
-    }
+  clone(): Aluno {
+    var aluno: Aluno = new Aluno();
+    aluno.copyFrom(this);
+    return aluno;
+  }
 
     copyFrom(from: Aluno): void {
       this.nome = from.nome;
