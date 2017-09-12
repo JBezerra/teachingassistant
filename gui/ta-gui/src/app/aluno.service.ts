@@ -3,7 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { retry, map } from 'rxjs/operators';
 
-import { Aluno } from '../../../common/aluno';
+import { Aluno } from '../../../../common/aluno';
 
 @Injectable()
 export class AlunoService {
@@ -33,6 +33,13 @@ export class AlunoService {
               .pipe(
                  retry(2)
                );
+  }
+
+  remover(cpf: string): Observable<number> {
+    return this.http.delete<any>(this.taURL + "/aluno/" + cpf, {headers: this.headers}).pipe(
+      retry(2),
+      map( res => {if (res.success) {return 200;} else {return null;}} )
+    );
   }
 
 }

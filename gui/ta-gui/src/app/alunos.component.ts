@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Aluno } from '../../../common/aluno';
+import { Aluno } from '../../../../common/aluno';
 import { AlunoService } from './aluno.service';
 
   @Component({
@@ -24,11 +24,21 @@ import { AlunoService } from './aluno.service';
                     this.aluno = new Aluno();
                   } else {
                     this.cpfduplicado = true;
-                  } 
+                  }
                 },
                 msg => { alert(msg.message); }
               );
-    } 
+    }
+
+    removerAluno(cpf: string): void {
+      console.log(cpf);
+      this.alunoService.remover(cpf).subscribe(res => {
+          let alunoIndex = this.alunos.findIndex(a => a.cpf == cpf);
+          this.alunos.splice(alunoIndex, 1);
+        },
+        msg => { alert(msg.message); }
+      );
+    }
 
     onMove(): void {
        this.cpfduplicado = false;
