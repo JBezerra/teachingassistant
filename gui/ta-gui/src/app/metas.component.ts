@@ -30,4 +30,8 @@ import { AlunoService } from './aluno.service';
     }
 
 
+<<<<<<< HEAD:gui/ta-gui/src/app/metas.component.ts
   }
+=======
+  }
+>>>>>>> 55c891b... servidor integrado ao cliente:ta-gui/src/app/metas.component.ts
