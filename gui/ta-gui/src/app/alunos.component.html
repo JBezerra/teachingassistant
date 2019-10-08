@@ -9,8 +9,8 @@
  <tr>
     <td><label>CPF </label></td>
     <td><input [(ngModel)]="aluno.cpf" name="cpfbox"></td>
-    <td *ngIf="cpfduplicado">
-      Já existe um aluno com esse CPF ou esse Login do Github
+    <td name="msgcpfexistente" *ngIf="cpfduplicado">
+      Já existe um aluno com esse CPF
     </td>
  </tr>
  <tr>
