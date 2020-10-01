@@ -1,3 +1,5 @@
+import Aluno from './aluno'
+import AlunosService from './alunos.service'
 import { Component } from '@angular/core';
 import { NgModule } from '@angular/core';
 
@@ -7,12 +9,13 @@ import { NgModule } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-   aluno: Aluno = {nome: "", cpf: "", email: "", githubLogin: ""};
+  aluno: Aluno = {nome: "", cpf: "", email: "", githubLogin: ""};
+  alunos: Aluno[] = [];
+  alunosService: AlunosService = new AlunosService();
+  gravar(aluno: Aluno){
+    this.alunosService.gravar(aluno);
+    this.alunos.push(aluno)
+    this.aluno = {nome: "", cpf: "", email: "", githubLogin: ""};
+  }
 }
 
-export class Aluno {
-  nome: string;
-  cpf: string;
-  email: string;
-  githubLogin: string;
-}
