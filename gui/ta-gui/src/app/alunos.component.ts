@@ -31,7 +31,6 @@ import { AlunoService } from './aluno.service';
     }
 
     removerAluno(cpf: string): void {
-      console.log(cpf);
       this.alunoService.remover(cpf).subscribe(res => {
           let alunoIndex = this.alunos.findIndex(a => a.cpf == cpf);
           this.alunos.splice(alunoIndex, 1);

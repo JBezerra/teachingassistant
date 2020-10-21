@@ -6,28 +6,28 @@ let expect = chai.expect;
 let sameCPF = ((elem, cpf) => elem.element(by.name('cpflist')).getText().then(text => text === cpf));
 let sameName = ((elem, name) => elem.element(by.name('nomelist')).getText().then(text => text === name));
 
-let pAND = ((p,q) => p.then(a => q.then(b => a && b)))
+let pAND = ((p, q) => p.then(a => q.then(b => a && b)))
 
 async function criarAluno(name, cpf) {
-    await $("input[name='namebox']").sendKeys(<string> name);
-    await $("input[name='cpfbox']").sendKeys(<string> cpf);
+    await $("input[name='namebox']").sendKeys(<string>name);
+    await $("input[name='cpfbox']").sendKeys(<string>cpf);
     await element(by.buttonText('Adicionar')).click();
 }
 
-async function assertTamanhoEqual(set,n) {
+async function assertTamanhoEqual(set, n) {
     await set.then(elems => expect(Promise.resolve(elems.length)).to.eventually.equal(n));
 }
 
-async function assertElementsWithSameCPFAndName(n,cpf,name) { 
-    var allalunos : ElementArrayFinder = element.all(by.name('alunolist'));
-    var samecpfsandname = allalunos.filter(elem => pAND(sameCPF(elem,cpf),sameName(elem,name)));
-    await assertTamanhoEqual(samecpfsandname,n);
+async function assertElementsWithSameCPFAndName(n, cpf, name) {
+    var allalunos: ElementArrayFinder = element.all(by.name('alunolist'));
+    var samecpfsandname = allalunos.filter(elem => pAND(sameCPF(elem, cpf), sameName(elem, name)));
+    await assertTamanhoEqual(samecpfsandname, n);
 }
 
-async function assertElementsWithSameCPF(n,cpf) {
-    var allalunos : ElementArrayFinder = element.all(by.name('alunolist'));
-    var samecpfs = allalunos.filter(elem => sameCPF(elem,cpf));
-    await assertTamanhoEqual(samecpfs,n); 
+async function assertElementsWithSameCPF(n, cpf) {
+    var allalunos: ElementArrayFinder = element.all(by.name('alunolist'));
+    var samecpfs = allalunos.filter(elem => sameCPF(elem, cpf));
+    await assertTamanhoEqual(samecpfs, n);
 }
 
 defineSupportCode(function ({ Given, When, Then }) {
@@ -38,11 +38,25 @@ defineSupportCode(function ({ Given, When, Then }) {
     })
 
     Given(/^I cannot see a student with CPF "(\d*)" in the students list$/, async (cpf) => {
-        await assertElementsWithSameCPF(0,cpf);
+        await assertElementsWithSameCPF(0, cpf);
     });
 
     When(/^I try to register the student "([^\"]*)" with CPF "(\d*)"$/, async (name, cpf) => {
-        await criarAluno(name,cpf);
+        await criarAluno(name, cpf);
+    });
+
+    When(/^I try to remove the student "([^\"]*)" with CPF "(\d*)"$/, async (name, cpf) => {
+        var allStudentList: ElementArrayFinder = element.all(by.name('alunolist'));
+        console.log(allStudentList);
+        allStudentList.filter(async elem => {
+            console.log(elem.element(by.name('nomelist')).getText());
+            console.log(pAND(sameCPF(elem, cpf), sameName(elem, name)));
+            if (pAND(sameCPF(elem, cpf), sameName(elem, name))){
+                console.log(await elem.element(by.name('removeStudent')).click())
+                await elem.element(by.name('removeStudent')).click()
+            }
+            return pAND(sameCPF(elem, cpf), sameName(elem, name))
+        });
     });
 
     Then(/^I can see "([^\"]*)" with CPF "(\d*)" in the students list$/, async (name, cpf) => {
@@ -51,7 +65,7 @@ defineSupportCode(function ({ Given, When, Then }) {
 
     Given(/^I can see a student with CPF "(\d*)" in the students list$/, async (cpf) => {
         await criarAluno("Clarissa",cpf);
-        await assertElementsWithSameCPF(1,cpf); 
+        await assertElementsWithSameCPF(1,cpf);
     });
 
     Then(/^I cannot see "([^\"]*)" with CPF "(\d*)" in the students list$/, async (name, cpf) => {
@@ -59,7 +73,7 @@ defineSupportCode(function ({ Given, When, Then }) {
     });
 
     Then(/^I can see an error message$/, async () => {
-        var allmsgs : ElementArrayFinder = element.all(by.name('msgcpfexistente'));
-        await assertTamanhoEqual(allmsgs,1);
+        var allmsgs: ElementArrayFinder = element.all(by.name('msgcpfexistente'));
+        await assertTamanhoEqual(allmsgs, 1);
     });
 })
